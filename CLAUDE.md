@@ -1,5 +1,21 @@
 # CLAUDE.md – Idea Generator 2
 
+## ⛔ Ekip Anayasası ve Zorunlu Ajan Yönlendirme Kuralı
+
+Bu proje çoklu ajan yönlendirme mimarisini kullanır (`AGENTS.md`). Ajan tanımları: `.claude/agents/` (Claude Code), `.agents/agents/` (Antigravity), `.codex/agents/` (Codex).
+
+1. Gelen görev aşağıdaki **Ekip ve yönlendirme** tablosundaki bir uzmanlık alanına giriyorsa, iş doğrudan ana oturumda yapılmaz; ilgili uzman ajana devredilir.
+2. Yanıtın başında seçilen ajan(lar) ve gerekçesi kısaca belirtilir.
+3. Her ajan işini şu başlıklarla bitirir: **Özet**, **Değişen dosyalar**, **Kanıt**, **Açık riskler**, **Devredilenler**.
+
+### Ekip ve yönlendirme
+
+| Konu | Ajan |
+| --- | --- |
+| Docker, Dockerfile, Docker Compose, volume/bind mount, Claude Code export dizin eşlemesi, Multi-LLM konteyner ağı (Ollama/LM Studio/MLX), deployment ve konteyner güvenliği | `devops-master` |
+
+---
+
 Node 25 runs the TypeScript server directly; the frontend is vanilla ES modules. There is no build step. Port 8300, loopback only.
 
 ## Commands
