@@ -1,0 +1,32 @@
+services:
+  idea-generator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: idea-generator-2
+    restart: unless-stopped
+    ports:
+      # Security: bind strictly to host loopback interface
+      - "127.0.0.1:8300:8300"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8300
+      - DB_FILE=/app/data/ideas.db
+      - DEFAULT_PROJECTS_ROOT=${DEFAULT_PROJECTS_ROOT:-/projects}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      - MLX_BASE_URL=${MLX_BASE_URL:-http://host.docker.internal:8080/v1}
+      - LMSTUDIO_BASE_URL=${LMSTUDIO_BASE_URL:-http://host.docker.internal:1234/v1}
+      - CUSTOM_BASE_URL=${CUSTOM_BASE_URL:-http://host.docker.internal:20128/v1}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY:-}
+      - CUSTOM_API_KEY=${CUSTOM_API_KEY:-}
+    volumes:
+      # SQLite DB + WAL/SHM persistence
+      - ./data:/app/data
+      # Claude Code project export bind mount
+      - ${PROJECTS_DIR:-/Users/caglar/Desktop/ideas}:/projects
+    extra_hosts:
+      # Access host-local LLM servers (Ollama :11434, LM Studio :1234, MLX :8080)
+      - "host.docker.internal:host-gateway"

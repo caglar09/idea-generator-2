@@ -22,18 +22,20 @@ export type AppSettings = {
 };
 
 const SONNET = 'openrouter:anthropic/claude-sonnet-5.5';
+const envUrl = (name: string, fallback: string) => process.env[name]?.trim().replace(/\/+$/, '') || fallback;
+
 export const DEFAULT_APP_SETTINGS: AppSettings = {
   keys: {},
   baseUrls: {
-    ollama: 'http://localhost:11434',
-    mlx: 'http://localhost:8080/v1',
-    lmstudio: 'http://localhost:1234/v1',
+    ollama: envUrl('OLLAMA_BASE_URL', 'http://localhost:11434'),
+    mlx: envUrl('MLX_BASE_URL', 'http://localhost:8080/v1'),
+    lmstudio: envUrl('LMSTUDIO_BASE_URL', 'http://localhost:1234/v1'),
     azure: '',
-    custom: '',
+    custom: envUrl('CUSTOM_BASE_URL', ''),
   },
   // Sonnet 5.5: calibrated judge, idiomatic Swedish. Grok: the only route that can search X.
   models: { distill: SONNET, expand: SONNET, combine: SONNET, judge: SONNET, summary: SONNET, research: SONNET, x: 'openrouter:x-ai/grok-4.3', brief: SONNET },
-  projectsRoot: '~/Projekt/idea-projects',
+  projectsRoot: process.env.DEFAULT_PROJECTS_ROOT?.trim() || '~/Projekt/idea-projects',
   maxUsdPerDay: 5,
 };
 
@@ -296,6 +298,7 @@ export function makeChat(getSettings: () => AppSettings): ChatFn {
   return async (r) => {
     const settings = getSettings();
     const { provider, model } = parseModel(r.model);
+    console.log(`[makeChat] routing: "${r.model}" -> provider: ${provider}, model: ${model}, baseUrl: ${baseFor(settings, provider)}`);
     if (!model) throw new ProviderError('bad_model', `No model given in "${r.model}"`);
     const def = PROVIDERS[provider];
     if (def.type === 'anthropic') return anthropicChat(settings, model, r);

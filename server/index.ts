@@ -32,8 +32,20 @@ const runtime: Runtime = {
 const engine = createEngine({ repo, chat: makeChat(runtime.get), settings: runtime.get });
 const autopilot = createAutopilot({ repo, engine, settings: runtime.get }).start();
 
-createServer(createHandler({ repo, engine, autopilot, runtime, publicDir: join(root, 'public') })).listen(PORT, HOST, () => {
+const server = createServer(createHandler({ repo, engine, autopilot, runtime, publicDir: join(root, 'public') })).listen(PORT, HOST, () => {
   console.log(`Idégeneratorn: http://localhost:${PORT}`);
   const auto = repo.listBoards().filter((b) => b.config.mode === 'auto');
   if (auto.length) console.log(`Autopilot on for ${auto.length} board(s); they need keys from the browser or the environment.`);
 });
+
+function shutdown() {
+  autopilot.stop();
+  server.close(() => {
+    try { repo.close(); } catch {}
+    process.exit(0);
+  });
+  setTimeout(() => process.exit(0), 3000).unref();
+}
+
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);

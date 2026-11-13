@@ -8,7 +8,7 @@ import { extname, join, resolve, sep } from 'node:path';
 import type { Repo, Idea, Board } from './db.ts';
 import { AppError, type Engine } from './engine.ts';
 import type { Autopilot } from './autopilot.ts';
-import { PROVIDERS, keySource, listModels, mergeAppSettings, type AppSettings, type ProviderId } from './providers.ts';
+import { DEFAULT_APP_SETTINGS, PROVIDERS, keySource, listModels, mergeAppSettings, type AppSettings, type ProviderId } from './providers.ts';
 import { fitness, medal, scoreSum } from '../public/js/score.js';
 
 export type Runtime = {
@@ -181,6 +181,10 @@ export function createHandler({ repo, engine, autopilot, runtime, publicDir }: D
     const s = runtime.get();
     return {
       settingsReceived: runtime.received(),
+      defaults: {
+        projectsRoot: DEFAULT_APP_SETTINGS.projectsRoot,
+        baseUrls: DEFAULT_APP_SETTINGS.baseUrls,
+      },
       providers: (Object.keys(PROVIDERS) as ProviderId[]).map((id) => ({
         id, label: PROVIDERS[id].label, local: !!PROVIDERS[id].local, needsKey: PROVIDERS[id].needsKey,
         search: !!PROVIDERS[id].search, note: PROVIDERS[id].note ?? null, keySource: keySource(s, id),
@@ -354,7 +358,7 @@ export function createHandler({ repo, engine, autopilot, runtime, publicDir }: D
       throw new AppError(404, 'not_found', `No route for ${req.method} ${url.pathname}`);
     } catch (e: any) {
       const status = e instanceof AppError ? e.status : 500;
-      if (status >= 500) console.error(`[${req.method} ${url.pathname}]`, e?.message ?? e);
+      if (status >= 500) console.error(`[${req.method} ${url.pathname}]`, e?.message ?? e, e?.cause ? `cause: ${JSON.stringify(e.cause)}` : '', e?.stack ?? '');
       send(res, status, { error: e?.message ?? 'Server error', code: e?.code ?? 'server_error' });
     }
   };

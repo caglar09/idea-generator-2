@@ -4,7 +4,7 @@ import { api, follow } from './api.js';
 import { $, h, clear, toast, debounce } from './dom.js';
 import { t, getLang, getLocale, setLang, applyI18n, errorText } from './i18n.js';
 import { Graph, KIND_COLORS } from './graph.js';
-import { loadSettings, saveSettings, pushSettings, ROLES, PROVIDER_IDS, providersInUse, DEFAULTS } from './settings.js';
+import { loadSettings, saveSettings, pushSettings, hasSavedSettings, ROLES, PROVIDER_IDS, providersInUse, DEFAULTS } from './settings.js';
 import { medal, scoreSum, fitness, CRITERIA } from './score.js';
 import { evolutionStats } from './evolve.js';
 import { openDashboard } from './dashboard.js';
@@ -941,6 +941,13 @@ async function main() {
   wire();
   applyI18n();
   try {
+    if (!hasSavedSettings()) {
+      const info = await api('GET', '/api/providers');
+      if (info?.defaults) {
+        if (info.defaults.projectsRoot) S.settings.projectsRoot = info.defaults.projectsRoot;
+        if (info.defaults.baseUrls) S.settings.baseUrls = { ...S.settings.baseUrls, ...info.defaults.baseUrls };
+      }
+    }
     S.providers = await pushSettings(S.settings);
     warnMissingKeys();
   } catch (e) {

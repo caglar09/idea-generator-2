@@ -17,6 +17,8 @@ export const DEFAULTS = {
   maxUsdPerDay: 5,
 };
 
+export const hasSavedSettings = () => localStorage.getItem(KEY) !== null;
+
 export function loadSettings() {
   let saved = {};
   try {
