@@ -8,7 +8,7 @@ import { clampScore } from '../public/js/score.js';
 import type { ChatFn } from './providers.ts';
 export type { ChatFn, ChatRequest } from './providers.ts';
 
-export type Lang = 'sv' | 'en';
+export type Lang = 'sv' | 'en' | 'tr';
 type Pitch = { title: string; pitch: string };
 type Flow = { system: string; expand: string; combine: string };
 type BoardCtx = { goal: string };
@@ -65,12 +65,12 @@ const JUDGE_SCHEMA = {
 
 // ---------------------------------------------------------------- prompts
 
-const LANG_NAME: Record<Lang, string> = { sv: 'Swedish', en: 'English' };
+const LANG_NAME: Record<Lang, string> = { sv: 'Swedish', en: 'English', tr: 'Turkish' };
 
 function languageRule(lang: Lang) {
   return [
     `Write in the same language as the source idea(s). If that is unclear or mixed, write in ${LANG_NAME[lang]}.`,
-    'If you write Swedish, write idiomatic Swedish: correct agreement, no invented compound words, no anglicisms where a Swedish word exists.',
+    'If you write Swedish, write idiomatic Swedish: correct agreement, no invented compound words, no anglicisms where a Swedish word exists. If you write Turkish, write natural idiomatic Turkish.',
   ].join(' ');
 }
 

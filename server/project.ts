@@ -58,7 +58,7 @@ const BRIEF_SCHEMA = {
   additionalProperties: false,
 };
 
-const LANG_NAME: Record<Lang, string> = { sv: 'Swedish', en: 'English' };
+const LANG_NAME: Record<Lang, string> = { sv: 'Swedish', en: 'English', tr: 'Turkish' };
 const fmt = (i: { title: string; pitch: string }) => (i.pitch ? `${i.title}: ${i.pitch}` : i.title);
 
 export function slugify(s: string) {
@@ -89,7 +89,7 @@ export async function writeBrief(a: {
     a.goal.trim() ? `The goal of the board it came from: ${a.goal.trim()}` : '',
     sum != null ? `Jury verdict: originality ${a.idea.originality}, feasibility ${a.idea.feasibility}, impact ${a.idea.impact} (of 5). ${a.idea.reason ?? ''}` : '',
     a.lineage.length ? `It grew out of these ideas:\n${a.lineage.map((i) => `- ${fmt(i)}`).join('\n')}` : '',
-    `Write in the language of the idea; if that is unclear, in ${LANG_NAME[a.lang]}. If Swedish, write idiomatic Swedish. The slug is always ASCII.`,
+    `Write in the language of the idea; if that is unclear, in ${LANG_NAME[a.lang]}. If Swedish, write idiomatic Swedish. If Turkish, write natural idiomatic Turkish. The slug is always ASCII.`,
   ]
     .filter(Boolean)
     .join('\n\n');
@@ -153,6 +153,22 @@ const L = {
     ],
     start: 'Getting started', then: 'Then say: "Read CLAUDE.md and propose a plan for the first step."',
     vaultIntro: 'Working notes for the project. This folder is gitignored.',
+  },
+  tr: {
+    born: 'Bu proje Idea Generator içindeki bir fikir panosunda doğdu', brief: 'Bu dosya proje brief’idir: başlamadan önce okuyun ve kararlar alındıkça güncel tutun.',
+    idea: 'Fikir', goal: 'Pano hedefi', verdict: 'Jüri değerlendirmesi', o: 'Özgünlük', f: 'Uygulanabilirlik', i: 'Etki', handset: 'Madalya elle ayarlandı',
+    problem: 'Problem', audience: 'Hedef kullanıcı', mvp: 'MVP: temel mekanizmayı test eden en küçük sürüm', out: 'Şimdilik kapsam dışı', stack: 'Önerilen teknoloji yığını',
+    steps: 'İlk adımlar', questions: 'Açık sorular', risks: 'Riskler', origin: 'Fikrin kaynağı', source: 'kaynak',
+    kinds: { seed: 'Tohum', expand: 'Dallanma', combine: 'Birleşim', guest: 'Misafir' } as Record<string, string>, fromBoard: 'şu panodan',
+    agreements: 'Çalışma kuralları',
+    rules: [
+      'Önce temel mekanizmayı test eden en küçük sürümü oluştur; karmaşıklığı ancak bu çalıştıktan sonra ekle.',
+      'Her adımı yalnızca kodu okuyarak değil, çalıştırarak doğrula.',
+      'Ücretli API kullanımı veya yayınlama gibi maliyetli/dış etkili işlemlerden önce sor.',
+      'Notlar ve fikirler git’e eklenmeyen `vault/` (Obsidian) klasöründe tutulur.',
+    ],
+    start: 'Başlangıç', then: 'Ardından şunu söyle: "CLAUDE.md dosyasını oku ve ilk adım için bir plan öner."',
+    vaultIntro: 'Proje çalışma notları. Bu klasör gitignore içindedir.',
   },
 };
 const MEDAL = ['', ' 🥉', ' 🥈', ' 🥇'];

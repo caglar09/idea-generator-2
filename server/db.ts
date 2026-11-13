@@ -141,8 +141,8 @@ export type BoardConfig = {
   flow: Flow;
   judgeGuidance: string;
   researchers: { x: { enabled: boolean; focus: string }; research: { enabled: boolean; focus: string } };
-  /** Fallback language for generated text ('sv' | 'en'); ideas otherwise follow their seed's language. */
-  lang: 'sv' | 'en';
+  /** Fallback language for generated text; ideas otherwise follow their seed's language. */
+  lang: 'sv' | 'en' | 'tr';
   /** manual: people drive. auto: the server evolves the board on its own, within the limits below. */
   mode: 'manual' | 'auto';
   /** Seconds between autopilot steps (pace). */
@@ -202,7 +202,7 @@ export function mergeConfig(base: BoardConfig, raw: any): BoardConfig {
         focus: s(rr.focus, 300, base.researchers.research.focus),
       },
     },
-    lang: r.lang === 'en' || r.lang === 'sv' ? r.lang : base.lang,
+    lang: r.lang === 'en' || r.lang === 'sv' || r.lang === 'tr' ? r.lang : base.lang,
     mode: r.mode === 'auto' || r.mode === 'manual' ? r.mode : base.mode,
     autopilotSeconds: Number.isFinite(secs) ? Math.min(3600, Math.max(3, Math.round(secs))) : base.autopilotSeconds,
     rate: {

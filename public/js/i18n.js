@@ -1,4 +1,4 @@
-// Swedish and English. The interface language is per browser; generated text
+// Swedish, English and Turkish. The interface language is per browser; generated text
 // follows the language of its seed (the board's language is only a fallback).
 
 const DICT = {
@@ -203,13 +203,112 @@ const DICT = {
     err_too_few: 'The summary needs at least two ideas.', err_generic: 'Something went wrong: {m}',
     firstRun: 'Welcome! Start with a board and a goal.',
   },
+  tr: {
+    appName: 'Fikir Üretici',
+    seedPlaceholder: 'Bir fikir yazın veya bağlantı yapıştırın … (Enter)',
+    readingPage: 'Sayfa okunuyor …',
+    thinking: 'Düşünüyor …',
+    boards: 'Panolar',
+    newBoard: 'Yeni pano',
+    goal: 'Hedef',
+    goalPlaceholder: 'örn. kamusal alanlarda etkileşim için yenilikçi görsel-işitsel ürün',
+    noGoal: 'Henüz hedef yok – yönü belirlemek için tıklayın',
+    title: 'Ad',
+    template: 'Akış şablonu',
+    create: 'Oluştur',
+    cancel: 'İptal',
+    save: 'Kaydet',
+    close: 'Kapat',
+    delete: 'Sil',
+    manual: 'Manuel',
+    auto: 'Otomatik',
+    leads: 'Keşif',
+    dashboard: 'Trendler',
+    exhibit: 'Sergi',
+    export: 'Dışa aktar',
+    boardSettings: 'Pano ayarları',
+    appSettings: 'Ayarlar',
+    fit: 'Tümünü göster',
+    kind_seed: 'Tohum', kind_expand: 'Dallanma', kind_combine: 'Birleşim', kind_guest: 'Misafir',
+    generation: 'nesil {n}',
+    fromBoard: '{b} panosundan',
+    notJudged: 'Henüz değerlendirilmedi',
+    judging: 'Jüri inceliyor …',
+    originality: 'Özgünlük', feasibility: 'Uygulanabilirlik', impact: 'Etki',
+    expand: 'Dallandır', expandHint: 'Bu fikirden gelişen üç yeni fikir',
+    combineWith: 'Şununla birleştir …', combinePick: 'Birleştirilecek fikre tıklayın (Esc iptal eder). Bir fikri diğerinin üzerine de sürükleyebilirsiniz.',
+    rejudge: 'Yeniden değerlendir',
+    medal: 'Madalya', medalAuto: 'Jüri',
+    announce: 'Duyur', announceHint: 'Fikri diğer panolara misafir olarak gönderin; oradaki fikirlerle birleşebilir',
+    spinoff: 'Fikirden yeni pano', spinoffHint: 'Fikri hedef olarak kullanan ayrı bir panoda geliştirin',
+    project: 'Claude Code projesi', projectHint: 'Claude Code’un başlayabileceği CLAUDE.md içeren bir proje klasörü oluştur',
+    projectMaking: 'Brief yazılıyor …',
+    revealProject: 'Finder’da göster', copyStart: 'Başlatma komutunu kopyala', copied: 'Kopyalandı',
+    source: 'Kaynak', spinoffs: 'Alt panolar', keywords: 'Anahtar kelimeler',
+    deleteIdea: 'Fikri sil', confirmDelete: '"{t}" silinsin mi?',
+    overview: 'Genel bakış', topIdeas: 'En iyi fikirler', noIdeasYet: 'Pano boş. Aşağıya bir tohum yazın veya sol panelden keşif sonuçları getirin.',
+    evolution: 'Evrim', evoLine: 'Nesil {g} · ortalama {first} → {latest} · en iyi {best}', evoShort: 'Nesil {g} · en iyi {best}',
+    summary: 'Özet', summarize: 'Panoyu özetle', resummarize: 'Güncelle', summaryStale: 'Özetten sonra {n} yeni fikir',
+    themes: 'Temalar', strongest: 'En güçlüler', gaps: 'Boşluklar', nextSteps: 'Sonraki adımlar',
+    leadsX: 'X trendleri', leadsResearch: 'AI araştırmaları', refresh: 'Getir', refreshing: 'Araştırılıyor …',
+    leadsEmpty: 'Henüz sonuç getirilmedi. Keşif araçları pano hedefine göre arama yapar.', addAsSeed: '+ Tohum', onBoard: 'panoda',
+    leadsDropped: 'Doğrulanmış kaynağı olmayan {n} sonuç elendi', leadsNone: 'Bu kez doğrulanmış sonuç bulunamadı',
+    researcherOff: 'Bu keşif aracı pano ayarlarında kapalı.',
+    dragLead: 'Panoya sürükleyin veya + Tohum’a tıklayın',
+    ap_manual: 'Manuel', ap_running: 'Çalışıyor …', ap_pace: 'Sonraki adım {s} sonra', ap_hourly: 'Saatlik sınıra ulaşıldı · {time} devam edecek',
+    ap_board_budget: 'Günlük pano bütçesi doldu · yarın devam edecek', ap_global_budget: 'Global günlük bütçe doldu · yarın devam edecek',
+    ap_backoff: 'Hata · {s} sonra yeniden denenecek', ap_error: 'Hata: {m}', ap_idle: 'Bekliyor', ap_idle_empty: 'Bir tohum bekliyor',
+    ap_idle_nothing: 'Şu anda yapılacak başka işlem yok',
+    apMeta: 'Son bir saatte {n} adım · bugün ${usd}',
+    general: 'Genel', language: 'Dil (üretilen metin için yedek)', flow: 'Üretim akışı', flowName: 'Akış adı',
+    systemPrompt: 'Rol (system prompt)', expandPrompt: 'Dallandırma', combinePrompt: 'Birleştirme', applyTemplate: 'Şablonu kullan',
+    saveAsTemplate: 'Şablon olarak kaydet', templateSaved: 'Şablon kaydedildi',
+    jury: 'Jüri', judgeGuidance: 'Jüri için ek yönergeler', judgeGuidancePh: 'örn. Yıl boyunca dış mekânda çalışan çözümleri ödüllendir.',
+    autoProject: 'Jüri altın madalyalı fikirleri Claude Code projesine dönüştürsün',
+    researchers: 'Keşif araçları', xScout: 'X trendleri (OpenRouter üzerinden Grok)', researchScout: 'AI araştırmaları (Hugging Face)', focus: 'Ek odak',
+    focusPh: 'hedefe ek olarak, örn. "ses enstalasyonları"',
+    autopilot: 'Otopilot', mode: 'Mod', pace: 'Adımlar arası saniye', stepsPerHour: 'Saatlik maksimum adım', usdPerDay: 'Günlük maksimum USD',
+    rateNote: 'Dolar limitleri yalnızca maliyet bildiren sağlayıcıları (OpenRouter, Anthropic) sayar. 0 = yalnızca ücretsiz (yerel) modeller.',
+    models: 'Modeller', modelsBoardNote: 'Boş alan = uygulama ayarı.',
+    role_distill: 'Tohumu damıt', role_expand: 'Dallandır', role_combine: 'Birleştir', role_judge: 'Jüri', role_summary: 'Özetle',
+    role_research: 'Araştırma keşfi', role_x: 'X keşfi', role_brief: 'Proje brief’i',
+    deleteBoard: 'Panoyu sil', confirmDeleteBoard: '"{t}" panosu tüm fikirleriyle silinsin mi?',
+    providers: 'Sağlayıcılar', apiKey: 'API anahtarı', baseUrl: 'Adres', test: 'Test et', testOk: '{n} model', keyFrom_browser: 'anahtar burada',
+    keyFrom_env: 'ortam değişkeninden anahtar', keyMissing: 'anahtar yok', local: 'yerel',
+    projectsRoot: 'Claude Code projeleri klasörü', globalBudget: 'Global limit, günlük USD', spend: 'Harcama: bugün ${today} · toplam ${total}',
+    settingsNote: 'Buradaki her şey tarayıcıda (localStorage) saklanır. Sunucu ayarları bellekte tutar ve anahtarları diske yazmaz.',
+    settingsSaved: 'Ayarlar kaydedildi',
+    needKey: 'Ayarlar bölümünde {p} için bir API anahtarı ekleyin.',
+    calibrateNote: 'Jüri modelini değiştiriyorsanız zayıf ve güçlü fikirleri ayırabildiğini kontrol etmek için npm run calibrate -- --model <model> çalıştırın.',
+    announceTitle: '"{t}" fikrini duyur', allBoards: 'Tüm panolar', announced: '{n} panoda misafir', announceNone: 'Zaten orada misafir',
+    noOtherBoards: 'Henüz başka pano yok.',
+    dashTitle: 'Tüm panolardaki trendler', days: '{n} gün', statIdeas: 'Fikirler', statBoards: 'Panolar', statKeywords: 'Anahtar kelimeler',
+    statRecent: 'Yeni fikirler, {n} gün', keyword: 'Anahtar kelime', trend: 'Günlük', count: 'Fikirler', change: 'Önceki döneme göre',
+    onBoards: 'Panolar', meanJury: 'Jüri ortalaması', boardKeywords: 'Panolara göre anahtar kelimeler', ideasWith: '"{k}" hakkındaki fikirler',
+    dashEmpty: 'Henüz anahtar kelime yok. Jüri fikirleri değerlendirdikçe oluşurlar.', tableNote: 'Günün değerini görmek için çizginin üzerine gelin.',
+    report: 'Rapor', reportNew: '{n} yeni', reportMedals: 'Madalyalar', reportProjects: 'Claude Code projeleri',
+    reportSpent: 'Harcama, {n} gün', conclusions: 'Sonuçlar', writeConclusions: 'Sonuçları yaz',
+    rewriteConclusions: 'Yeniden yaz', conclusionsHint: 'AI tüm panoları okuyup rapor sonuçlarını yazsın: içgörüler, ilerletilmeye en değer fikirler, fırsatlar ve sonraki adımlar.',
+    conclusionsFrom: '{date} tarihinde yazıldı · {n} günü kapsıyor', insights: 'İçgörüler', standouts: 'İlerletilmeye en değer', opportunities: 'Fırsatlar',
+    noProjects: 'Henüz proje yok. Altın fikirler otomatik olarak projeye dönüşür veya bir fikirde → Claude Code projesi seçeneğine tıklayabilirsiniz.',
+    ideasWord: 'fikir', summaryOld: 'panodan eski', noBoardSummary: 'Henüz özet yok.',
+    gold: '🥇 Altın: {t}', projectCreated: 'Claude Code projesi oluşturuldu: {p}', exhibitExit: 'Esc sergi modundan çıkar',
+    err_no_key: 'API anahtarı yok: {m}', err_bad_key: 'Anahtar kabul edilmedi: {m}', err_unreachable: 'Hizmete ulaşılamıyor: {m}',
+    err_no_search: '{m}', err_url_unreadable: 'Bağlantı okunamadı: {m}', err_url_no_text: 'Sayfada yeterli okunabilir metin yok.',
+    err_too_few: 'Özet için en az iki fikir gerekir.', err_generic: 'Bir hata oluştu: {m}',
+    firstRun: 'Hoş geldiniz! Bir pano ve hedef oluşturarak başlayın.',
+  },
 };
 
-let lang = localStorage.getItem('ideagen.lang') || (navigator.language?.startsWith('sv') ? 'sv' : 'en');
+const SUPPORTED = ['sv', 'en', 'tr'];
+const browserLang = navigator.language?.split('-')[0];
+const storedLang = localStorage.getItem('ideagen.lang');
+let lang = SUPPORTED.includes(storedLang) ? storedLang : (SUPPORTED.includes(browserLang) ? browserLang : 'en');
 
 export const getLang = () => lang;
+export const getLocale = () => ({ sv: 'sv-SE', en: 'en-GB', tr: 'tr-TR' })[lang];
 export function setLang(l) {
-  lang = l === 'en' ? 'en' : 'sv';
+  lang = SUPPORTED.includes(l) ? l : 'en';
   localStorage.setItem('ideagen.lang', lang);
   document.documentElement.lang = lang;
 }
@@ -223,6 +322,7 @@ export function t(key, vars = {}) {
 /** Fill [data-i18n] text, [data-i18n-ph] placeholders and [data-i18n-title] tooltips. */
 export function applyI18n(root = document) {
   document.documentElement.lang = lang;
+  document.title = t('appName');
   for (const el of root.querySelectorAll('[data-i18n]')) el.textContent = t(el.dataset.i18n);
   for (const el of root.querySelectorAll('[data-i18n-ph]')) el.placeholder = t(el.dataset.i18nPh);
   for (const el of root.querySelectorAll('[data-i18n-title]')) {

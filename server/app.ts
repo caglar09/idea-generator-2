@@ -69,10 +69,16 @@ const LABELS = {
     handset: 'set by hand', guest: 'Guest from board', project: 'Claude Code project',
     summary: 'Summary', strongest: 'Strongest', gaps: 'Gaps', next: 'Next steps', stale: 'The summary is older than the board',
   },
+  tr: {
+    flow: 'Akış', ideas: 'fikir', exported: 'Dışa aktarıldı', seed: 'Tohum', source: 'Kaynak', parents: 'Ebeveynler',
+    originality: 'Özgünlük', feasibility: 'Uygulanabilirlik', impact: 'Etki', unjudged: 'Değerlendirilmedi',
+    handset: 'elle ayarlandı', guest: 'Şu panodan misafir', project: 'Claude Code projesi',
+    summary: 'Özet', strongest: 'En güçlüler', gaps: 'Boşluklar', next: 'Sonraki adımlar', stale: 'Özet panodan daha eski',
+  },
 };
 const MEDAL_ICON = ['', '🥉 ', '🥈 ', '🥇 '];
 
-export function boardMarkdown(board: Board, ideas: Idea[], edges: { from: number; to: number }[], lang: 'sv' | 'en') {
+export function boardMarkdown(board: Board, ideas: Idea[], edges: { from: number; to: number }[], lang: 'sv' | 'en' | 'tr') {
   const L = LABELS[lang];
   const byId = new Map(ideas.map((i) => [i.id, i]));
   const parents = new Map<number, Idea[]>();
@@ -131,9 +137,15 @@ const REPORT_LABELS = {
     next: 'Next steps', goal: 'Goal', best: 'Best ideas', summary: 'Summary', stale: 'older than the board', none: 'None yet.',
     start: 'Start',
   },
+  tr: {
+    title: 'Rapor', period: 'Son {n} gün', boards: 'pano', ideas: 'fikir', newIdeas: 'yeni', projects: 'Claude Code projeleri',
+    spent: 'Harcama', conclusions: 'Sonuçlar', insights: 'İçgörüler', standouts: 'İlerletilmeye en değer', opportunities: 'Fırsatlar',
+    next: 'Sonraki adımlar', goal: 'Hedef', best: 'En iyi fikirler', summary: 'Özet', stale: 'panodan eski', none: 'Henüz yok.',
+    start: 'Başlat',
+  },
 };
 
-export function reportMarkdown(r: ReturnType<Repo['report']>, lang: 'sv' | 'en') {
+export function reportMarkdown(r: ReturnType<Repo['report']>, lang: 'sv' | 'en' | 'tr') {
   const L = REPORT_LABELS[lang];
   const m = r.totals.medals;
   const out = [
@@ -199,10 +211,10 @@ export function createHandler({ repo, engine, autopilot, runtime, publicDir }: D
     // ---- boards
     ['GET', /^\/api\/boards$/, () => ({ boards: repo.listBoards() })],
     ['POST', /^\/api\/boards$/, (_p, b) => {
-      const lang = b.lang === 'en' ? 'en' : 'sv';
+      const lang = b.lang === 'en' || b.lang === 'tr' ? b.lang : 'sv';
       return {
         board: repo.createBoard({
-          title: str(b.title, 120) || (lang === 'en' ? 'New board' : 'Ny tavla'),
+          title: str(b.title, 120) || ({ sv: 'Ny tavla', en: 'New board', tr: 'Yeni pano' })[lang],
           goal: str(b.goal, 600),
           templateId: Number.isInteger(b.templateId) ? b.templateId : null,
           config: { lang },
@@ -242,7 +254,8 @@ export function createHandler({ repo, engine, autopilot, runtime, publicDir }: D
     ['GET', /^\/api\/boards\/(\d+)\/export\.md$/, ([id], _b, url) => {
       const board = repo.getBoard(+id);
       if (!board) throw new AppError(404, 'not_found', 'Board not found');
-      const lang = url.searchParams.get('lang') === 'en' ? 'en' : 'sv';
+      const rawLang = url.searchParams.get('lang');
+      const lang = rawLang === 'en' || rawLang === 'tr' ? rawLang : 'sv';
       return { __raw: boardMarkdown(board, repo.listIdeas(board.id), repo.listEdges(board.id), lang), type: 'text/markdown; charset=utf-8' };
     }],
     ['POST', /^\/api\/boards\/(\d+)\/summary$/, ([id]) => engine.summarize(+id)],
@@ -273,9 +286,9 @@ export function createHandler({ repo, engine, autopilot, runtime, publicDir }: D
 
     // ---- report: insights, ideas and projects across all boards
     ['GET', /^\/api\/report$/, (_p, _b, url) => repo.report(daysOf(url))],
-    ['POST', /^\/api\/report\/synthesis$/, (_p, b) => engine.synthesize(Math.min(365, Math.max(1, Number(b.days) || 30)), b.lang === 'en' ? 'en' : 'sv')],
+    ['POST', /^\/api\/report\/synthesis$/, (_p, b) => engine.synthesize(Math.min(365, Math.max(1, Number(b.days) || 30)), b.lang === 'en' || b.lang === 'tr' ? b.lang : 'sv')],
     ['GET', /^\/api\/report\.md$/, (_p, _b, url) => ({
-      __raw: reportMarkdown(repo.report(daysOf(url)), url.searchParams.get('lang') === 'en' ? 'en' : 'sv'),
+      __raw: reportMarkdown(repo.report(daysOf(url)), url.searchParams.get('lang') === 'en' || url.searchParams.get('lang') === 'tr' ? url.searchParams.get('lang') as 'en' | 'tr' : 'sv'),
       type: 'text/markdown; charset=utf-8',
     })],
 
